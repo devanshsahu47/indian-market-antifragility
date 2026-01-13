@@ -1,4 +1,4 @@
-import { Lightbulb, TrendingDown, TrendingUp, Clock, Shield } from 'lucide-react';
+import { Lightbulb, TrendingDown, TrendingUp, Clock } from 'lucide-react';
 
 interface SmartInsightProps {
   insight: {
@@ -14,101 +14,72 @@ interface SmartInsightProps {
 export function SmartInsight({ insight }: SmartInsightProps) {
   if (!insight) {
     return (
-      <div className="executive-summary-card">
-        <div className="flex items-center gap-3 text-muted-foreground">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Lightbulb className="w-5 h-5 text-primary" />
-          </div>
-          <span className="text-sm font-mono">Select a crisis period and stock to generate executive insights</span>
+      <div className="insight-card">
+        <div className="flex items-center gap-2 text-muted-foreground">
+          <Lightbulb className="w-4 h-4" />
+          <span className="text-sm font-mono">Select a crisis period and stock to generate insights</span>
         </div>
       </div>
     );
   }
 
   const stockName = insight.stockTicker.replace('.NS', '').replace('.BO', '');
-  const stockDrawdownNum = parseFloat(insight.stockDrawdown);
-  const indexDrawdownNum = parseFloat(insight.indexDrawdown);
-  const outperformed = stockDrawdownNum < indexDrawdownNum;
-  
-  // Determine antifragility level
-  const antifragilityLevel = insight.recoveryDays !== null 
-    ? (insight.recoveryDays < 120 ? 'High' : 'Moderate')
-    : (parseFloat(insight.totalRecovery) > 100 ? 'High' : 'Moderate');
+  const outperformed = parseFloat(insight.stockDrawdown) < parseFloat(insight.indexDrawdown);
 
   return (
-    <div className="executive-summary-card animate-fade-in">
-      <div className="flex items-start gap-4">
-        <div className="p-3 rounded-xl bg-gradient-to-br from-primary/20 to-accent/20 border border-primary/30">
-          <Shield className="w-6 h-6 text-primary" />
+    <div className="insight-card animate-fade-in">
+      <div className="flex items-start gap-3">
+        <div className="p-2 rounded-lg bg-accent/20">
+          <Lightbulb className="w-5 h-5 text-accent" />
         </div>
         <div className="flex-1">
-          <div className="flex items-center gap-2 mb-3">
-            <h3 className="text-base font-bold text-foreground">
-              Executive Summary
-            </h3>
-            <span className="px-2 py-0.5 text-[10px] font-mono uppercase rounded-full bg-accent/20 text-accent border border-accent/30">
-              {insight.crisisName}
-            </span>
-          </div>
-          
+          <h3 className="text-sm font-semibold text-foreground mb-2">
+            Smart Analysis: {insight.crisisName}
+          </h3>
           <p className="text-sm text-muted-foreground leading-relaxed">
-            <span className="text-foreground font-semibold">Insight:</span> During the{' '}
-            <span className="text-accent font-medium">{insight.crisisName}</span>,{' '}
-            <span className="text-foreground font-bold">{stockName}</span> experienced a{' '}
-            <span className="text-loss font-mono font-semibold">{insight.stockDrawdown}%</span> drawdown 
-            compared to the Index's{' '}
-            <span className="text-loss font-mono">{insight.indexDrawdown}%</span>.{' '}
+            During the <span className="text-accent font-medium">{insight.crisisName}</span> period,{' '}
+            <span className="text-foreground font-semibold">{stockName}</span> fell{' '}
+            <span className="text-loss font-mono font-medium">{insight.stockDrawdown}%</span>{' '}
+            (Index fell <span className="text-loss font-mono">{insight.indexDrawdown}%</span>)
             {insight.recoveryDays ? (
               <>
-                It successfully reclaimed its pre-crash peak in{' '}
-                <span className="text-xl font-bold text-primary">{insight.recoveryDays}</span>{' '}
-                <span className="text-primary font-medium">trading days</span>,
+                {' '}and recovered its pre-crisis value in{' '}
+                <span className="text-accent font-mono font-medium">{insight.recoveryDays}</span> trading days.
               </>
             ) : (
               <>
-                It has gained{' '}
-                <span className="text-xl font-bold text-gain">{insight.totalRecovery}%</span>{' '}
-                <span className="text-gain font-medium">from the trough</span>,
+                {' '}and has gained{' '}
+                <span className="text-gain font-mono font-medium">{insight.totalRecovery}%</span> from the trough.
               </>
-            )}{' '}
-            demonstrating <span className={antifragilityLevel === 'High' ? 'text-primary font-bold' : 'text-accent font-medium'}>
-              {antifragilityLevel} Antifragility
-            </span>.
+            )}
           </p>
-
-          <div className="flex flex-wrap items-center gap-4 mt-4 pt-4 border-t border-border/50">
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-loss/10 border border-loss/20">
+          <div className="flex items-center gap-4 mt-3">
+            <div className="flex items-center gap-1.5">
               <TrendingDown className="w-4 h-4 text-loss" />
-              <div className="text-xs font-mono">
-                <span className="text-muted-foreground">Max Drawdown:</span>{' '}
-                <span className="text-loss font-semibold">{insight.stockDrawdown}%</span>
-              </div>
+              <span className="text-xs font-mono text-muted-foreground">
+                Drawdown: <span className="text-loss">{insight.stockDrawdown}%</span>
+              </span>
             </div>
-            <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-gain/10 border border-gain/20">
+            <div className="flex items-center gap-1.5">
               <TrendingUp className="w-4 h-4 text-gain" />
-              <div className="text-xs font-mono">
-                <span className="text-muted-foreground">Recovery:</span>{' '}
-                <span className="text-gain font-semibold">{insight.totalRecovery}%</span>
-              </div>
+              <span className="text-xs font-mono text-muted-foreground">
+                Recovery: <span className="text-gain">{insight.totalRecovery}%</span>
+              </span>
             </div>
             {insight.recoveryDays && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20">
-                <Clock className="w-4 h-4 text-primary" />
-                <div className="text-xs font-mono">
-                  <span className="text-muted-foreground">Recovery Days:</span>{' '}
-                  <span className="text-primary font-bold text-sm">{insight.recoveryDays}</span>
-                </div>
-              </div>
-            )}
-            {outperformed && (
-              <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/10 border border-primary/20">
-                <Shield className="w-4 h-4 text-primary" />
-                <span className="text-xs font-mono text-primary font-medium">
-                  Outperformed Index
+              <div className="flex items-center gap-1.5">
+                <Clock className="w-4 h-4 text-accent" />
+                <span className="text-xs font-mono text-muted-foreground">
+                  Days: <span className="text-accent">{insight.recoveryDays}</span>
                 </span>
               </div>
             )}
           </div>
+          {outperformed && (
+            <div className="mt-3 text-xs font-mono text-primary">
+              ✓ {stockName} showed stronger resilience than the Index
+            </div>
+          )}
         </div>
       </div>
     </div>

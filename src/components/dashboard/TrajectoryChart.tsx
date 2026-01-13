@@ -1,7 +1,5 @@
-import { useMemo, useState } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend, LineChart, Line } from 'recharts';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+import { useMemo } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import type { NormalizedChartData } from '@/types/market';
 
 interface TrajectoryChartProps {
@@ -10,7 +8,7 @@ interface TrajectoryChartProps {
   indexName: string;
 }
 
-const CustomTooltip = ({ active, payload, label, isNormalized }: any) => {
+const CustomTooltip = ({ active, payload, label }: any) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-card border border-border rounded-lg p-3 shadow-xl">
@@ -21,14 +19,14 @@ const CustomTooltip = ({ active, payload, label, isNormalized }: any) => {
               {entry.name}
             </span>
             <span className="font-mono font-medium">
-              {isNormalized ? entry.value.toFixed(2) : `₹${entry.value.toFixed(2)}`}
+              {entry.value.toFixed(2)}
             </span>
           </div>
         ))}
-        {!isNormalized && payload[0]?.payload && (
+        {payload[0]?.payload && (
           <div className="mt-2 pt-2 border-t border-border text-xs text-muted-foreground">
-            <div>Normalized Stock: {payload[0].payload.stock?.toFixed(2)}</div>
-            <div>Normalized Index: {payload[0].payload.index?.toFixed(2)}</div>
+            <div>Stock: ₹{payload[0].payload.stockPrice?.toFixed(2)}</div>
+            <div>Index: {payload[0].payload.indexPrice?.toFixed(2)}</div>
           </div>
         )}
       </div>
@@ -38,8 +36,6 @@ const CustomTooltip = ({ active, payload, label, isNormalized }: any) => {
 };
 
 export function TrajectoryChart({ data, stockTicker, indexName }: TrajectoryChartProps) {
-  const [isNormalized, setIsNormalized] = useState(true);
-
   const chartData = useMemo(() => {
     return data.map(d => ({
       ...d,
@@ -60,30 +56,13 @@ export function TrajectoryChart({ data, stockTicker, indexName }: TrajectoryChar
     );
   }
 
-  const stockLabel = stockTicker.replace('.NS', '').replace('.BO', '');
-
   return (
     <div className="terminal-card h-full">
       <div className="terminal-header">
-        <span className="terminal-title">
-          Comparative Trajectory {isNormalized && '(Base 100)'}
+        <span className="terminal-title">Comparative Trajectory (Normalized to 100)</span>
+        <span className="text-xs font-mono text-accent">
+          {stockTicker.replace('.NS', '').replace('.BO', '')} vs {indexName}
         </span>
-        <div className="flex items-center gap-4">
-          <span className="text-xs font-mono text-accent">
-            {stockLabel} vs {indexName}
-          </span>
-          <div className="flex items-center gap-2">
-            <Switch
-              id="normalize-toggle"
-              checked={isNormalized}
-              onCheckedChange={setIsNormalized}
-              className="data-[state=checked]:bg-primary"
-            />
-            <Label htmlFor="normalize-toggle" className="text-xs font-mono text-muted-foreground cursor-pointer">
-              Normalized
-            </Label>
-          </div>
-        </div>
       </div>
       <div className="p-4 h-[350px]">
         <ResponsiveContainer width="100%" height="100%">
@@ -109,23 +88,22 @@ export function TrajectoryChart({ data, stockTicker, indexName }: TrajectoryChar
               stroke="hsl(215, 20%, 55%)"
               tick={{ fontSize: 10, fontFamily: 'JetBrains Mono' }}
               domain={['auto', 'auto']}
-              tickFormatter={(value) => isNormalized ? value.toFixed(0) : `₹${(value / 1000).toFixed(0)}K`}
             />
-            <Tooltip content={<CustomTooltip isNormalized={isNormalized} />} />
+            <Tooltip content={<CustomTooltip />} />
             <Legend 
               wrapperStyle={{ fontFamily: 'JetBrains Mono', fontSize: '11px' }}
             />
             <Area
               type="monotone"
-              dataKey={isNormalized ? "stock" : "stockPrice"}
-              name={stockLabel}
+              dataKey="stock"
+              name={stockTicker.replace('.NS', '').replace('.BO', '')}
               stroke="hsl(160, 84%, 39%)"
               fill="url(#stockGradient)"
               strokeWidth={2}
             />
             <Area
               type="monotone"
-              dataKey={isNormalized ? "index" : "indexPrice"}
+              dataKey="index"
               name={indexName}
               stroke="hsl(262, 83%, 58%)"
               fill="url(#indexGradient)"

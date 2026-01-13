@@ -180,37 +180,6 @@
     border-left: 3px solid hsl(var(--accent));
   }
 
-  /* Executive Summary Card - Glass Morphism Style */
-  .executive-summary-card {
-    @apply relative overflow-hidden rounded-xl p-5;
-    background: linear-gradient(
-      135deg,
-      hsl(var(--card) / 0.9) 0%,
-      hsl(var(--card) / 0.7) 100%
-    );
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid hsl(160 84% 39% / 0.3);
-    box-shadow: 
-      0 4px 24px hsl(160 84% 39% / 0.1),
-      inset 0 1px 0 hsl(var(--foreground) / 0.05);
-  }
-
-  .executive-summary-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      hsl(160 84% 39% / 0.5) 50%,
-      transparent 100%
-    );
-  }
-
   .crisis-badge {
     @apply px-2 py-1 rounded text-xs font-mono uppercase tracking-wide;
     @apply bg-secondary/50 border border-border;

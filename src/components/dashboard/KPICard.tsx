@@ -1,11 +1,5 @@
 import { cn } from '@/lib/utils';
-import { TrendingUp, TrendingDown, Minus, Info } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
+import { TrendingUp, TrendingDown, Minus } from 'lucide-react';
 
 interface KPICardProps {
   title: string;
@@ -14,28 +8,15 @@ interface KPICardProps {
   trend?: 'up' | 'down' | 'neutral';
   trendValue?: string;
   icon?: React.ReactNode;
-  infoTooltip?: string;
 }
 
-export function KPICard({ title, value, subtitle, trend, trendValue, icon, infoTooltip }: KPICardProps) {
+export function KPICard({ title, value, subtitle, trend, trendValue, icon }: KPICardProps) {
   return (
     <div className="terminal-card p-4 animate-scale-in">
       <div className="terminal-header -mx-4 -mt-4 mb-4">
         <span className="terminal-title flex items-center gap-2">
           {icon}
           {title}
-          {infoTooltip && (
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Info className="w-3.5 h-3.5 text-muted-foreground hover:text-accent cursor-help transition-colors" />
-                </TooltipTrigger>
-                <TooltipContent side="top" className="max-w-[250px] text-xs">
-                  {infoTooltip}
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          )}
         </span>
         {trend && (
           <div className={cn(

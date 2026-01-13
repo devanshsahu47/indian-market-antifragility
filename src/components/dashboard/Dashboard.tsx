@@ -74,13 +74,8 @@ export function Dashboard() {
               />
             </header>
 
-            {/* Executive Summary - Mobile First */}
-            <div className="order-1 md:order-2">
-              <SmartInsight insight={smartInsight} />
-            </div>
-
             {/* KPI Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 order-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <KPICard
                 title="Market Breadth"
                 value={`${marketMetrics.marketBreadth.toFixed(1)}%`}
@@ -94,7 +89,6 @@ export function Dashboard() {
                 value={avgRecoveryDays > 0 ? `${Math.round(avgRecoveryDays)}` : '—'}
                 subtitle="Trading days to reclaim peak"
                 icon={<Clock className="w-3 h-3" />}
-                infoTooltip="Measured as trading days from the crash bottom to reclaiming the previous All-Time High."
               />
               <KPICard
                 title="Volatility Pulse"
@@ -113,32 +107,29 @@ export function Dashboard() {
               />
             </div>
 
-            {/* Main Charts Row - Price Chart comes before Scatter on mobile */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 order-2 md:order-4">
-              <div className="order-1">
-                <TrajectoryChart
-                  data={normalizedChartData}
-                  stockTicker={selectedTicker}
-                  indexName={selectedIndex}
-                />
-              </div>
-              <div className="order-2">
-                <ResilienceScatter
-                  data={stockResilienceData}
-                  selectedTicker={selectedTicker}
-                  onSelectTicker={setSelectedTicker}
-                />
-              </div>
-            </div>
+            {/* Smart Insight */}
+            <SmartInsight insight={smartInsight} />
 
-            {/* Momentum Heatmap */}
-            <div className="order-4 md:order-5">
-              <MomentumTreemap
+            {/* Main Charts Row */}
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+              <TrajectoryChart
+                data={normalizedChartData}
+                stockTicker={selectedTicker}
+                indexName={selectedIndex}
+              />
+              <ResilienceScatter
                 data={stockResilienceData}
                 selectedTicker={selectedTicker}
                 onSelectTicker={setSelectedTicker}
               />
             </div>
+
+            {/* Momentum Heatmap */}
+            <MomentumTreemap
+              data={stockResilienceData}
+              selectedTicker={selectedTicker}
+              onSelectTicker={setSelectedTicker}
+            />
 
             {/* Footer */}
             <footer className="text-center text-xs text-muted-foreground font-mono py-4 border-t border-border">
