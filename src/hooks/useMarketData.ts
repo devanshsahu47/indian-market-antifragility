@@ -63,6 +63,15 @@ async function loadCSV<T>(url: string, parser: (row: RawDataRow) => T): Promise<
   });
 }
 
+// Default crisis preset for 2020 COVID-19 Crash
+const DEFAULT_CRISIS: CrisisPreset = {
+  id: 'covid-2020',
+  name: '2020 COVID-19 Crash',
+  startDate: '2020-02-01',
+  endDate: '2020-12-31',
+  description: 'COVID-19 Pandemic Crash',
+};
+
 export function useMarketData() {
   const [niftyIndex, setNiftyIndex] = useState<IndexDataPoint[]>([]);
   const [sensexIndex, setSensexIndex] = useState<IndexDataPoint[]>([]);
@@ -71,8 +80,8 @@ export function useMarketData() {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedIndex, setSelectedIndex] = useState<IndexType>('NIFTY');
-  const [selectedTicker, setSelectedTicker] = useState<string | null>(null);
-  const [selectedCrisis, setSelectedCrisis] = useState<CrisisPreset | null>(null);
+  const [selectedTicker, setSelectedTicker] = useState<string | null>('RELIANCE.NS');
+  const [selectedCrisis, setSelectedCrisis] = useState<CrisisPreset | null>(DEFAULT_CRISIS);
 
   useEffect(() => {
     const loadAllData = async () => {
