@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Search, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Search, TrendingUp, TrendingDown } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { IndexType, StockResilienceData } from '@/types/market';
 
 interface TickerSidebarProps {
@@ -34,7 +34,7 @@ export function TickerSidebar({
   };
 
   return (
-    <aside className="w-72 min-w-72 bg-sidebar border-r border-sidebar-border flex flex-col h-screen">
+    <aside className="w-72 min-w-72 bg-sidebar border-r border-sidebar-border flex flex-col h-screen max-md:hidden">
       <div className="p-4 border-b border-sidebar-border">
         <h1 className="text-lg font-semibold text-foreground mb-1">Market Antifragility</h1>
         <p className="text-xs text-muted-foreground">Indian Equity Resilience Dashboard</p>
@@ -81,11 +81,19 @@ export function TickerSidebar({
             return (
               <div
                 key={ticker}
-                className={cn("ticker-item", isActive && "active")}
+                className={cn(
+                  "ticker-item cursor-pointer transition-all duration-200",
+                  isActive && "active bg-primary/20 border-l-2 border-l-primary ring-1 ring-primary/30"
+                )}
                 onClick={() => setSelectedTicker(ticker)}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm font-medium">{ticker.replace('.NS', '').replace('.BO', '')}</span>
+                  <span className={cn(
+                    "font-mono text-sm font-medium",
+                    isActive && "text-primary"
+                  )}>
+                    {ticker.replace('.NS', '').replace('.BO', '')}
+                  </span>
                   <div className={cn(
                     "flex items-center gap-1 text-xs font-mono",
                     isGain ? "text-gain" : "text-loss"
