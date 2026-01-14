@@ -57,24 +57,24 @@ export function Dashboard() {
       
       <main className="flex-1 overflow-hidden">
         <ScrollArea className="h-screen">
-          <div className="p-6 space-y-6">
-            {/* Header */}
-            <header className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">
-                  Market Antifragility
-                </h1>
-                <p className="text-sm text-muted-foreground font-mono">
-                  Indian Equity Resilience Dashboard • {selectedIndex}
-                </p>
-              </div>
-              <CrisisSelector
-                selectedCrisis={selectedCrisis}
-                setSelectedCrisis={setSelectedCrisis}
-              />
-            </header>
+          {/* Power BI Style Header Bar */}
+          <header className="bg-card border-b border-border px-6 py-4">
+            <h1 className="text-lg font-semibold text-foreground">
+              Market Resilience Executive Report
+            </h1>
+            <p className="text-xs text-muted-foreground mt-0.5">
+              Indian Equity Analysis • {selectedIndex}
+            </p>
+          </header>
 
-            {/* KPI Row */}
+          <div className="p-4 space-y-4">
+            {/* Crisis Slicer */}
+            <CrisisSelector
+              selectedCrisis={selectedCrisis}
+              setSelectedCrisis={setSelectedCrisis}
+            />
+
+            {/* KPI Row - 4 uniform cards */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               <KPICard
                 title="Market Breadth"
@@ -85,9 +85,9 @@ export function Dashboard() {
                 icon={<BarChart3 className="w-3 h-3" />}
               />
               <KPICard
-                title="Avg Recovery Speed"
+                title="Recovery Days"
                 value={avgRecoveryDays > 0 ? `${Math.round(avgRecoveryDays)}` : '—'}
-                subtitle="Trading days to reclaim peak"
+                subtitle="Avg days to reclaim peak"
                 icon={<Clock className="w-3 h-3" />}
               />
               <KPICard
@@ -111,7 +111,7 @@ export function Dashboard() {
             <SmartInsight insight={smartInsight} />
 
             {/* Main Charts Row */}
-            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
               <TrajectoryChart
                 data={normalizedChartData}
                 stockTicker={selectedTicker}
@@ -132,7 +132,7 @@ export function Dashboard() {
             />
 
             {/* Footer */}
-            <footer className="text-center text-xs text-muted-foreground font-mono py-4 border-t border-border">
+            <footer className="text-center text-xs text-muted-foreground py-4 border-t border-border">
               Data sourced from NIFTY 50 & SENSEX historical records • Analytics computed in real-time
             </footer>
           </div>

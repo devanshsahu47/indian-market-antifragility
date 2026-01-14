@@ -9,9 +9,9 @@ interface CrisisSelectorProps {
 
 export function CrisisSelector({ selectedCrisis, setSelectedCrisis }: CrisisSelectorProps) {
   return (
-    <div className="flex items-center gap-2 flex-wrap">
-      <span className="text-xs text-muted-foreground font-mono uppercase tracking-wider flex items-center gap-1">
-        <Calendar className="w-3 h-3" />
+    <div className="pbi-card flex items-center gap-3 flex-wrap">
+      <span className="text-xs text-muted-foreground uppercase tracking-wide flex items-center gap-1.5 font-semibold">
+        <Calendar className="w-3.5 h-3.5" />
         Crisis Period:
       </span>
       {CRISIS_PRESETS.map((crisis) => (
@@ -19,7 +19,7 @@ export function CrisisSelector({ selectedCrisis, setSelectedCrisis }: CrisisSele
           key={crisis.id}
           onClick={() => setSelectedCrisis(selectedCrisis?.id === crisis.id ? null : crisis)}
           className={cn(
-            "crisis-badge transition-all duration-200",
+            "crisis-badge",
             selectedCrisis?.id === crisis.id && "active"
           )}
         >
