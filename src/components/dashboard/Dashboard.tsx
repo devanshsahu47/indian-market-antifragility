@@ -5,7 +5,6 @@ import { KPICard } from './KPICard';
 import { TrajectoryChart } from './TrajectoryChart';
 import { ResilienceScatter } from './ResilienceScatter';
 import { MomentumTreemap } from './MomentumTreemap';
-import { SmartInsight } from './SmartInsight';
 import { LoadingState } from './LoadingState';
 import { ErrorState } from './ErrorState';
 import { Activity, BarChart3, Clock, TrendingUp } from 'lucide-react';
@@ -25,7 +24,6 @@ export function Dashboard() {
     marketMetrics,
     stockResilienceData,
     normalizedChartData,
-    smartInsight,
   } = useMarketData();
 
   if (isLoading) {
@@ -64,6 +62,9 @@ export function Dashboard() {
             </h1>
             <p className="text-xs text-muted-foreground mt-1 text-center">
               Indian Equity Analysis • {selectedIndex}
+            </p>
+            <p className="text-sm text-muted-foreground mt-3 text-center">
+              Select a crisis period and stock to generate insights
             </p>
           </header>
 
@@ -107,8 +108,6 @@ export function Dashboard() {
               />
             </div>
 
-            {/* Smart Insight */}
-            <SmartInsight insight={smartInsight} />
 
             {/* Main Charts Row */}
             <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
