@@ -49,12 +49,5 @@ This dashboard is designed to tell a **Story of Recovery**.
 When a user selects the **"2020 COVID-19 Crash"** and **"RELIANCE.NS"**, the dashboard immediately reveals a powerful narrative:
 - It shows that while the NIFTY 50 plummeted ~38%, certain leaders reclaimed their peaks in record time (under 50 days), signaling a structural shift in market leadership.
 - It highlights the **"Efficiency of the V-Shape"**: By comparing recovery days across different sectors (Tech vs. Banking), the dashboard reveals which sectors act as "Defensive Anchors" for the Indian economy.
-
----
-
-## 🛠️ Tech Stack & Engineering
-- **Framework:** React.js with Vite for sub-second hot-reloads.
-- **Styling:** Tailwind CSS (Power BI Default Light Theme).
-- **Data Engine:** PapaParse for high-speed CSV streaming and `useMemo` for heavy financial calculations.
 - **Charts:** Recharts (SVG-based responsive visualizations).
 - **UI Components:** Shadcn/UI & Lucide Icons.
