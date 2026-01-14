@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
-import { Search, TrendingUp, TrendingDown, Minus } from 'lucide-react';
+import { Search, TrendingUp, TrendingDown, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import type { IndexType, StockResilienceData } from '@/types/market';
 
 interface TickerSidebarProps {
@@ -35,12 +35,16 @@ export function TickerSidebar({
 
   return (
     <aside className="w-72 min-w-72 bg-sidebar border-r border-sidebar-border flex flex-col h-screen">
+      {/* Header */}
       <div className="p-4 border-b border-sidebar-border">
-        <h1 className="text-lg font-semibold text-foreground mb-1">Market Antifragility</h1>
-        <p className="text-xs text-muted-foreground">Indian Equity Resilience Dashboard</p>
+        <h1 className="text-sm font-semibold text-foreground uppercase tracking-wide">Filter Pane</h1>
       </div>
 
+      {/* Index Slicer */}
       <div className="p-4 border-b border-sidebar-border">
+        <label className="text-xs text-muted-foreground uppercase tracking-wide font-semibold block mb-2">
+          Index
+        </label>
         <Tabs 
           value={selectedIndex} 
           onValueChange={(v) => {
@@ -48,30 +52,46 @@ export function TickerSidebar({
             setSelectedTicker(null);
           }}
         >
-          <TabsList className="w-full bg-muted">
-            <TabsTrigger value="NIFTY" className="flex-1 font-mono text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+          <TabsList className="w-full bg-muted/50 border border-border">
+            <TabsTrigger 
+              value="NIFTY" 
+              className="flex-1 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               NIFTY 50
             </TabsTrigger>
-            <TabsTrigger value="SENSEX" className="flex-1 font-mono text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+            <TabsTrigger 
+              value="SENSEX" 
+              className="flex-1 text-xs data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+            >
               SENSEX
             </TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
 
+      {/* Ticker Search Slicer */}
       <div className="p-4 border-b border-sidebar-border">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+        <label className="text-xs text-muted-foreground uppercase tracking-wide font-semibold block mb-2">
+          Ticker
+        </label>
+        <div className="pbi-slicer flex items-center gap-2">
+          <Search className="w-4 h-4 text-muted-foreground flex-shrink-0" />
           <Input
             placeholder="Search ticker..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            className="pl-9 bg-muted border-border font-mono text-sm"
+            className="border-0 bg-transparent p-0 h-auto text-sm focus-visible:ring-0"
           />
+          {search && (
+            <button onClick={() => setSearch('')} className="text-muted-foreground hover:text-foreground">
+              <X className="w-3 h-3" />
+            </button>
+          )}
         </div>
       </div>
 
-      <ScrollArea className="flex-1 scrollbar-terminal">
+      {/* Ticker List */}
+      <ScrollArea className="flex-1 scrollbar-pbi">
         <div className="p-2">
           {filteredTickers.map((ticker) => {
             const metrics = getTickerMetrics(ticker);
@@ -85,9 +105,9 @@ export function TickerSidebar({
                 onClick={() => setSelectedTicker(ticker)}
               >
                 <div className="flex items-center justify-between">
-                  <span className="font-mono text-sm font-medium">{ticker.replace('.NS', '').replace('.BO', '')}</span>
+                  <span className="text-sm font-medium">{ticker.replace('.NS', '').replace('.BO', '')}</span>
                   <div className={cn(
-                    "flex items-center gap-1 text-xs font-mono",
+                    "flex items-center gap-1 text-xs",
                     isGain ? "text-gain" : "text-loss"
                   )}>
                     {isGain ? (
@@ -101,14 +121,14 @@ export function TickerSidebar({
                 {metrics && (
                   <div className="flex items-center gap-2 mt-1">
                     <span className={cn(
-                      "text-[10px] px-1.5 py-0.5 rounded font-mono uppercase",
-                      metrics.status === 'Leading' && "bg-primary/20 text-primary",
-                      metrics.status === 'Recovered' && "bg-accent/20 text-accent",
-                      metrics.status === 'Lagging' && "bg-destructive/20 text-destructive"
+                      "text-[10px] px-1.5 py-0.5 rounded uppercase font-medium",
+                      metrics.status === 'Leading' && "bg-success/15 text-success",
+                      metrics.status === 'Recovered' && "bg-primary/15 text-primary",
+                      metrics.status === 'Lagging' && "bg-destructive/15 text-destructive"
                     )}>
                       {metrics.status}
                     </span>
-                    <span className="text-[10px] text-muted-foreground font-mono">
+                    <span className="text-[10px] text-muted-foreground">
                       DD: {metrics.maxDrawdown.toFixed(1)}%
                     </span>
                   </div>
@@ -119,10 +139,11 @@ export function TickerSidebar({
         </div>
       </ScrollArea>
 
+      {/* Footer */}
       <div className="p-4 border-t border-sidebar-border bg-sidebar">
         <div className="flex items-center gap-2">
           <div className="pulse-dot" />
-          <span className="text-xs text-muted-foreground font-mono">
+          <span className="text-xs text-muted-foreground">
             {tickers.length} stocks loaded
           </span>
         </div>

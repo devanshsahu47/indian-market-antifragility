@@ -2,85 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
-
 @layer base {
   :root {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
+    /* Power BI Light Theme */
+    --background: 30 5% 95%; /* #F3F2F1 */
+    --foreground: 0 0% 15%; /* Dark text */
 
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 96%;
+    --card: 0 0% 100%; /* #FFFFFF */
+    --card-foreground: 0 0% 15%;
 
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 96%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 15%;
 
-    --primary: 160 84% 39%;
-    --primary-foreground: 222 47% 6%;
+    --primary: 207 100% 53%; /* #118DFF - Azure Blue */
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 210 40% 96%;
+    --secondary: 0 0% 96%; /* Light grey */
+    --secondary-foreground: 0 0% 38%; /* #606060 */
 
-    --muted: 215 28% 14%;
-    --muted-foreground: 215 20% 55%;
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 38%; /* #606060 */
 
-    --accent: 188 94% 43%;
-    --accent-foreground: 222 47% 6%;
+    --accent: 174 99% 36%; /* #01B8AA - Teal */
+    --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 22 80% 56%; /* #E66C37 - Orange-Red */
+    --destructive-foreground: 0 0% 100%;
 
-    --success: 160 84% 39%;
-    --success-foreground: 222 47% 6%;
+    --success: 174 99% 36%; /* #01B8AA - Teal */
+    --success-foreground: 0 0% 100%;
 
-    --warning: 45 93% 47%;
-    --warning-foreground: 222 47% 6%;
+    --warning: 22 80% 56%; /* #E66C37 */
+    --warning-foreground: 0 0% 100%;
 
-    --border: 215 28% 17%;
-    --input: 215 28% 17%;
-    --ring: 188 94% 43%;
+    --border: 0 0% 88%; /* #E1E1E1 */
+    --input: 0 0% 88%;
+    --ring: 207 100% 53%; /* Primary blue focus */
 
-    --radius: 0.5rem;
+    --radius: 4px;
 
-    --chart-gain: 160 84% 39%;
-    --chart-loss: 0 72% 51%;
-    --chart-neutral: 215 20% 55%;
-    --chart-accent: 188 94% 43%;
-    --chart-index: 262 83% 58%;
+    /* Power BI Chart Colors */
+    --chart-primary: 207 100% 53%; /* #118DFF */
+    --chart-secondary: 235 80% 35%; /* #12239E */
+    --chart-gain: 174 99% 36%; /* #01B8AA - Teal */
+    --chart-loss: 22 80% 56%; /* #E66C37 - Orange-Red */
+    --chart-neutral: 0 0% 38%; /* #606060 */
+    --chart-accent: 207 100% 53%;
+    --chart-index: 0 0% 38%; /* Grey for index */
 
-    --sidebar-background: 222 47% 5%;
-    --sidebar-foreground: 210 40% 96%;
-    --sidebar-primary: 160 84% 39%;
-    --sidebar-primary-foreground: 222 47% 6%;
-    --sidebar-accent: 215 28% 14%;
-    --sidebar-accent-foreground: 210 40% 96%;
-    --sidebar-border: 215 28% 15%;
-    --sidebar-ring: 188 94% 43%;
+    /* Sidebar - Filter Pane style */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 15%;
+    --sidebar-primary: 207 100% 53%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 207 100% 96%;
+    --sidebar-accent-foreground: 207 100% 40%;
+    --sidebar-border: 0 0% 88%;
+    --sidebar-ring: 207 100% 53%;
 
-    --font-mono: 'JetBrains Mono', monospace;
-    --font-sans: 'Inter', system-ui, sans-serif;
-  }
-
-  .dark {
-    --background: 222 47% 6%;
-    --foreground: 210 40% 96%;
-    --card: 222 47% 8%;
-    --card-foreground: 210 40% 96%;
-    --popover: 222 47% 8%;
-    --popover-foreground: 210 40% 96%;
-    --primary: 160 84% 39%;
-    --primary-foreground: 222 47% 6%;
-    --secondary: 215 28% 17%;
-    --secondary-foreground: 210 40% 96%;
-    --muted: 215 28% 14%;
-    --muted-foreground: 215 20% 55%;
-    --accent: 188 94% 43%;
-    --accent-foreground: 222 47% 6%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 215 28% 17%;
-    --input: 215 28% 17%;
-    --ring: 188 94% 43%;
+    --font-sans: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --font-mono: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
 }
 
@@ -90,103 +71,115 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased;
+    @apply bg-background text-foreground antialiased;
     font-family: var(--font-sans);
-  }
-
-  .font-mono {
-    font-family: var(--font-mono);
   }
 }
 
 @layer components {
-  .terminal-card {
-    @apply bg-card border border-border rounded-lg overflow-hidden;
-    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(222 47% 7%) 100%);
+  /* Power BI Tile Card */
+  .pbi-card {
+    @apply bg-card rounded border border-border p-4;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
   }
 
-  .terminal-header {
-    @apply px-4 py-3 border-b border-border flex items-center justify-between;
-    background: hsl(222 47% 5%);
+  .pbi-card-header {
+    @apply text-xs uppercase tracking-wide text-muted-foreground mb-3 font-semibold;
   }
 
-  .terminal-title {
-    @apply text-xs font-mono uppercase tracking-wider text-muted-foreground;
-  }
-
+  /* KPI Big Number Style */
   .kpi-value {
-    @apply text-2xl font-mono font-semibold tracking-tight;
+    @apply text-3xl font-semibold text-foreground tracking-tight text-center;
   }
 
   .kpi-label {
-    @apply text-xs font-mono uppercase tracking-wider text-muted-foreground;
+    @apply text-xs uppercase tracking-wide text-muted-foreground text-center;
   }
 
+  /* Gain/Loss Colors */
   .gain {
-    @apply text-[hsl(var(--chart-gain))];
+    color: hsl(var(--chart-gain));
   }
 
   .loss {
-    @apply text-[hsl(var(--chart-loss))];
+    color: hsl(var(--chart-loss));
   }
 
   .neutral {
     @apply text-muted-foreground;
   }
 
+  /* Power BI Slicer Style */
+  .pbi-slicer {
+    @apply bg-card border border-border rounded px-3 py-2;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  }
+
+  .pbi-slicer:focus-within {
+    @apply ring-2 ring-primary/30 border-primary;
+  }
+
+  /* Ticker item in sidebar */
   .ticker-item {
-    @apply px-3 py-2 rounded-md cursor-pointer transition-all duration-200;
-    @apply hover:bg-secondary/50 border border-transparent;
+    @apply px-3 py-2 rounded cursor-pointer transition-all duration-150;
+    @apply hover:bg-sidebar-accent border border-transparent;
   }
 
   .ticker-item.active {
-    @apply bg-secondary border-primary/30;
+    @apply bg-sidebar-accent border-primary/30;
   }
 
+  /* Power BI Tooltip */
+  .pbi-tooltip {
+    @apply bg-card border border-border rounded p-3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  /* Crisis badge / Slicer button */
+  .crisis-badge {
+    @apply px-3 py-1.5 rounded text-xs uppercase tracking-wide font-medium;
+    @apply bg-card border border-border text-muted-foreground;
+    @apply hover:border-primary/50 transition-all duration-150;
+  }
+
+  .crisis-badge.active {
+    @apply bg-primary/10 border-primary text-primary;
+  }
+
+  /* Scrollbar styling */
+  .scrollbar-pbi::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-pbi::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+    border-radius: 4px;
+  }
+
+  .scrollbar-pbi::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 4px;
+  }
+
+  .scrollbar-pbi::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground));
+  }
+
+  /* Insight card */
+  .insight-card {
+    @apply pbi-card;
+    border-left: 3px solid hsl(var(--primary));
+  }
+
+  /* Data grid */
   .data-grid {
     @apply grid gap-4;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
 
-  .chart-container {
-    @apply w-full h-full min-h-[300px];
-  }
-
+  /* Pulse indicator */
   .pulse-dot {
-    @apply w-2 h-2 rounded-full bg-primary animate-pulse;
-  }
-
-  .scrollbar-terminal::-webkit-scrollbar {
-    width: 6px;
-  }
-
-  .scrollbar-terminal::-webkit-scrollbar-track {
-    background: hsl(var(--muted));
-    border-radius: 3px;
-  }
-
-  .scrollbar-terminal::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 3px;
-  }
-
-  .scrollbar-terminal::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground));
-  }
-
-  .insight-card {
-    @apply terminal-card p-4;
-    background: linear-gradient(135deg, hsl(222 47% 8%) 0%, hsl(222 47% 6% / 0.8) 100%);
-    border-left: 3px solid hsl(var(--accent));
-  }
-
-  .crisis-badge {
-    @apply px-2 py-1 rounded text-xs font-mono uppercase tracking-wide;
-    @apply bg-secondary/50 border border-border;
-  }
-
-  .crisis-badge.active {
-    @apply bg-accent/20 border-accent text-accent;
+    @apply w-2 h-2 rounded-full bg-success animate-pulse;
   }
 }
 
@@ -213,13 +206,5 @@
 
   .border-loss {
     border-color: hsl(var(--chart-loss));
-  }
-
-  .gradient-gain {
-    background: linear-gradient(180deg, hsl(var(--chart-gain) / 0.3) 0%, transparent 100%);
-  }
-
-  .gradient-loss {
-    background: linear-gradient(180deg, hsl(var(--chart-loss) / 0.3) 0%, transparent 100%);
   }
 }
