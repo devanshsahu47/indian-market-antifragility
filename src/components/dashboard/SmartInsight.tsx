@@ -13,14 +13,7 @@ interface SmartInsightProps {
 
 export function SmartInsight({ insight }: SmartInsightProps) {
   if (!insight) {
-    return (
-      <div className="insight-card">
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <Lightbulb className="w-4 h-4" />
-          <span className="text-sm">Select a crisis period and stock to generate insights</span>
-        </div>
-      </div>
-    );
+    return null;
   }
 
   const stockName = insight.stockTicker.replace('.NS', '').replace('.BO', '');
