@@ -58,11 +58,11 @@ export function Dashboard() {
       <main className="flex-1 overflow-hidden">
         <ScrollArea className="h-screen">
           {/* Power BI Style Header Bar */}
-          <header className="bg-card border-b border-border px-6 py-4">
-            <h1 className="text-lg font-semibold text-foreground">
+          <header className="bg-card border-b border-border px-6 py-4 mb-6">
+            <h1 className="text-2xl font-bold text-foreground text-center">
               Market Resilience Executive Report
             </h1>
-            <p className="text-xs text-muted-foreground mt-0.5">
+            <p className="text-xs text-muted-foreground mt-1 text-center">
               Indian Equity Analysis • {selectedIndex}
             </p>
           </header>
